@@ -16,9 +16,24 @@ final class MemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUI()
+        setNaviBar()
         setAddView()
         setConstraint()
         setTableView()
+    }
+    
+    private func setUI() {
+        view.backgroundColor = .white
+    }
+    
+    private func setNaviBar() {
+        title = "Memo List"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(didTapAddButton)
+        )
     }
     
     private func setAddView() {
@@ -28,7 +43,7 @@ final class MemoViewController: UIViewController {
     private func setConstraint() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -41,6 +56,10 @@ final class MemoViewController: UIViewController {
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MemoCell")
         tableView.allowsSelection = false
+    }
+    
+    @objc func didTapAddButton() {
+        
     }
 }
 

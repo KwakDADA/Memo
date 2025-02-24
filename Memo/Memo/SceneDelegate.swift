@@ -16,8 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let viewController = MemoViewController()
-        window?.rootViewController = viewController
+        let memoViewController = MemoViewController()
+        let navigationController = UINavigationController(rootViewController: memoViewController)
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 
