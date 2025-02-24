@@ -11,20 +11,17 @@ final class MemoViewController: UIViewController {
     
     var memoList: MemoList = .init(list: [Memo(content: "hello!")])
     
-    var tableView: UITableView = .init()
+    private let memoListView: MemoListView = .init()
+    
+    override func loadView() {
+        view = memoListView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUI()
         setNaviBar()
-        setAddView()
-        setConstraint()
         setTableView()
-    }
-    
-    private func setUI() {
-        view.backgroundColor = .white
     }
     
     private func setNaviBar() {
@@ -36,26 +33,9 @@ final class MemoViewController: UIViewController {
         )
     }
     
-    private func setAddView() {
-        view.addSubview(tableView)
-    }
-    
-    private func setConstraint() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
     private func setTableView() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MemoCell")
-        tableView.allowsSelection = false
+        memoListView.tableView.dataSource = self
+        memoListView.tableView.delegate = self
     }
     
     @objc func didTapAddButton() {
