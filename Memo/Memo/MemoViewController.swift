@@ -9,7 +9,7 @@ import UIKit
 
 final class MemoViewController: UIViewController {
     
-    var memoList: MemoList = .init(list: [Memo(content: "hello!")])
+    private var memoList: MemoList = .init(list: [])
     
     private let memoListView: MemoListView = .init()
     
@@ -39,7 +39,30 @@ final class MemoViewController: UIViewController {
     }
     
     @objc func didTapAddButton() {
+        let alert = UIAlertController(
+            title: AlertConstants.AddMemo.addActionTitle,
+            message: nil,
+            preferredStyle: .alert
+        )
+        alert.addTextField { $0.placeholder = AlertConstants.AddMemo.placeholder }
         
+        let addAction = UIAlertAction(
+            title: AlertConstants.AddMemo.addActionTitle,
+            style: .default
+        ) { _ in
+            guard let content = alert.textFields?.first?.text, !content.isEmpty else { return }
+            self.memoList.add(Memo(content: content))
+            self.memoListView.tableView.reloadData()
+        }
+        let cancelAction = UIAlertAction(
+            title: AlertConstants.AddMemo.cancelActionTitle,
+            style: .cancel
+        )
+        
+        alert.addAction(addAction)
+        alert.addAction(cancelAction)
+        
+        present(alert, animated: true)
     }
 }
 
