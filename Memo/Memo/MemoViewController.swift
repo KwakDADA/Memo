@@ -10,6 +10,7 @@ import UIKit
 final class MemoViewController: UIViewController {
     
     private var memoList: MemoList = .init(list: [])
+    private let memoStorage: MemoStorage = .init()
     
     private let memoListView: MemoListView = .init()
     
@@ -39,15 +40,9 @@ final class MemoViewController: UIViewController {
         memoListView.tableView.delegate = self
     }
     
-    private func saveList() {
-        guard let encodedList = try? JSONEncoder().encode(memoList) else { return }
-        UserDefaults.standard.set(encodedList, forKey: "memoList")
-    }
-    
     private func loadList() {
-        guard let data = UserDefaults.standard.data(forKey: "memoList"),
-              let decodedList = try? JSONDecoder().decode(MemoList.self, from: data) else { return }
-        memoList = decodedList
+        guard let loadedList = memoStorage.load() else { return }
+        memoList = loadedList
     }
     
     @objc func didTapAddButton() {
@@ -64,7 +59,7 @@ final class MemoViewController: UIViewController {
         ) { _ in
             guard let content = alert.textFields?.first?.text, !content.isEmpty else { return }
             self.memoList.add(Memo(content: content))
-            self.saveList()
+            self.memoStorage.save(self.memoList)
             self.memoListView.tableView.reloadData()
         }
         let cancelAction = UIAlertAction(
@@ -84,7 +79,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             memoList.delete(indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
-            saveList()
+            self.memoStorage.save(self.memoList)
         }
     }
     
