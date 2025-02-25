@@ -20,6 +20,7 @@ final class MemoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadList()
         setNaviBar()
         setTableView()
     }
@@ -38,9 +39,20 @@ final class MemoViewController: UIViewController {
         memoListView.tableView.delegate = self
     }
     
+    private func saveList() {
+        guard let encodedList = try? JSONEncoder().encode(memoList) else { return }
+        UserDefaults.standard.set(encodedList, forKey: "memoList")
+    }
+    
+    private func loadList() {
+        guard let data = UserDefaults.standard.data(forKey: "memoList"),
+              let decodedList = try? JSONDecoder().decode(MemoList.self, from: data) else { return }
+        memoList = decodedList
+    }
+    
     @objc func didTapAddButton() {
         let alert = UIAlertController(
-            title: AlertConstants.AddMemo.addActionTitle,
+            title: AlertConstants.AddMemo.title,
             message: nil,
             preferredStyle: .alert
         )
@@ -52,6 +64,7 @@ final class MemoViewController: UIViewController {
         ) { _ in
             guard let content = alert.textFields?.first?.text, !content.isEmpty else { return }
             self.memoList.add(Memo(content: content))
+            self.saveList()
             self.memoListView.tableView.reloadData()
         }
         let cancelAction = UIAlertAction(
@@ -71,6 +84,7 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
         if editingStyle == .delete {
             memoList.delete(indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            saveList()
         }
     }
     

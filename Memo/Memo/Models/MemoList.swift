@@ -5,7 +5,7 @@
 //  Created by 곽다은 on 2/24/25.
 //
 
-struct MemoList {
+struct MemoList: Codable {
     var list: [Memo]
     
     mutating func add(_ memo: Memo) {
