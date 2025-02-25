@@ -6,10 +6,11 @@
 //
 
 enum AlertConstants {
+    static let cancelActionTitle = "취소"
+    
     enum AddMemo {
         static let title = "새 메모 추가"
         static let placeholder = "메모 내용"
         static let addActionTitle = "추가"
-        static let cancelActionTitle = "취소"
     }
 }

@@ -11,7 +11,6 @@ final class MemoViewController: UIViewController {
     
     private var memoList: MemoList = .init(list: [])
     private let memoStorage: MemoStorage = .init()
-    
     private let memoListView: MemoListView = .init()
     
     override func loadView() {
@@ -46,29 +45,16 @@ final class MemoViewController: UIViewController {
     }
     
     @objc func didTapAddButton() {
-        let alert = UIAlertController(
+        let alert = createTextFieldAlert(
             title: AlertConstants.AddMemo.title,
-            message: nil,
-            preferredStyle: .alert
-        )
-        alert.addTextField { $0.placeholder = AlertConstants.AddMemo.placeholder }
-        
-        let addAction = UIAlertAction(
-            title: AlertConstants.AddMemo.addActionTitle,
-            style: .default
-        ) { _ in
-            guard let content = alert.textFields?.first?.text, !content.isEmpty else { return }
+            placeholder: AlertConstants.AddMemo.placeholder,
+            confirmActionTitle: AlertConstants.AddMemo.addActionTitle
+        ) { [weak self] content in
+            guard let self = self else { return }
             self.memoList.add(Memo(content: content))
             self.memoStorage.save(self.memoList)
             self.memoListView.tableView.reloadData()
         }
-        let cancelAction = UIAlertAction(
-            title: AlertConstants.AddMemo.cancelActionTitle,
-            style: .cancel
-        )
-        
-        alert.addAction(addAction)
-        alert.addAction(cancelAction)
         
         present(alert, animated: true)
     }
