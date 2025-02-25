@@ -11,7 +11,7 @@ final class MemoListView: UIView {
 
     var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "MemoCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: ReuseIdentifiers.memoCell)
         tableView.allowsSelection = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView

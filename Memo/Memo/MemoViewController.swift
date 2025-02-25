@@ -61,7 +61,11 @@ final class MemoViewController: UIViewController {
 }
 
 extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        commit editingStyle: UITableViewCell.EditingStyle,
+        forRowAt indexPath: IndexPath
+    ) {
         if editingStyle == .delete {
             memoList.delete(indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -74,7 +78,10 @@ extension MemoViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MemoCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: ReuseIdentifiers.memoCell,
+            for: indexPath
+        )
         cell.textLabel?.text = memoList.list[indexPath.row].content
 
         return cell
