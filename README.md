@@ -1,6 +1,7 @@
-# 제목 없음
-
 # Memo
+
+![Simulator Screen Recording - iPhone 16 Pro - 2025-02-26 at 14 41 09](https://github.com/user-attachments/assets/77935b37-bca7-46d6-a916-22edc0a73cc9)
+
 
 Memo는 사용자가 메모를 추가하고 삭제할 수 있는 간단한 앱입니다.
 
