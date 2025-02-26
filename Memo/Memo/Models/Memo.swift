@@ -5,6 +5,9 @@
 //  Created by 곽다은 on 2/24/25.
 //
 
-struct Memo: Codable {
+import Foundation
+
+struct Memo: Hashable, Codable {
+    let id: UUID = .init()
     let content: String
 }
